@@ -64,6 +64,13 @@ async function run() {
             res.send(result)
         })
 
+        
+        app.get('/bike', async(req, res) =>{
+            const bike = req.query.bike;
+            const query = {type: bike}
+            const result = await allToysCollection.find(query).toArray();
+            res.send(result)
+        })
 
 
     } finally {
