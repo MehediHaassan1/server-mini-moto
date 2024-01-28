@@ -1,6 +1,6 @@
 const express = require('express')
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express()
 const port = process.env.PORT || 5000;
 require('dotenv').config();
@@ -47,27 +47,34 @@ async function run() {
             res.send(result);
         });
 
-        app.get('/cars', async(req, res) =>{
+        app.get('/all-toys/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: new ObjectId(id) };
+            const result = await allToysCollection.findOne(filter);
+            res.send(result);
+        })
+
+        app.get('/cars', async (req, res) => {
             const cars = req.query.car;
-            const query = {type: cars}
+            const query = { type: cars }
             const result = await allToysCollection.find(query).toArray();
             res.send(result)
         })
 
-        app.get('/sports-car', async(req, res) =>{
+        app.get('/sports-car', async (req, res) => {
             const sportsCars = req.query.sportsCar;
             const first = sportsCars.split('_')[0]
             const second = sportsCars.split('_')[1]
             const carType = first + ' ' + second;
-            const query = {type: carType}
+            const query = { type: carType }
             const result = await allToysCollection.find(query).toArray();
             res.send(result)
         })
 
-        
-        app.get('/bike', async(req, res) =>{
+
+        app.get('/bike', async (req, res) => {
             const bike = req.query.bike;
-            const query = {type: bike}
+            const query = { type: bike }
             const result = await allToysCollection.find(query).toArray();
             res.send(result)
         })
