@@ -45,6 +45,23 @@ async function run() {
         app.get('/all-toys', async (req, res) => {
             const result = await allToysCollection.find().toArray();
             res.send(result);
+        });
+
+        app.get('/cars', async(req, res) =>{
+            const cars = req.query.car;
+            const query = {type: cars}
+            const result = await allToysCollection.find(query).toArray();
+            res.send(result)
+        })
+
+        app.get('/sports-car', async(req, res) =>{
+            const sportsCars = req.query.sportsCar;
+            const first = sportsCars.split('_')[0]
+            const second = sportsCars.split('_')[1]
+            const carType = first + ' ' + second;
+            const query = {type: carType}
+            const result = await allToysCollection.find(query).toArray();
+            res.send(result)
         })
 
 
