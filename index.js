@@ -94,6 +94,23 @@ async function run() {
         })
 
 
+        app.patch('/my-toys/:id', async (req, res) => {
+            const id = req.params.id;
+            const updateInfo = req.body;
+            const filter = { _id: new ObjectId(id) };
+            const updateDoc = {
+                $set: {
+                    price: updateInfo.price,
+                    quantity: updateInfo.quantity,
+                    description: updateInfo.description
+                },
+            };
+
+            const result = await allToysCollection.updateOne(filter, updateDoc);
+            res.send(result);
+        })
+
+
     } finally {
         // Ensures that the client will close when you finish/error
         // await client.close();
